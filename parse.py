@@ -1,8 +1,9 @@
 import sys
 import time
 
-toFind = ['ERROR', 'Exception', 'deadlock']
 #use sys.path
+
+#class LogParser:
 
 def follow(file):
 	file.seek(0, 2)
@@ -13,14 +14,15 @@ def follow(file):
 			continue
 		yield line
 
-i = input("Choose file to follow: ")
+def find(logline, words, openfile):
+	for line in logline:
+		for find in words:
+			if find in line:
+				print("%s found in %s file" % (find, openfile))
 
-logfile = open(i)
-logline = follow(logfile)
-
-
-for line in logline:
-	print (line, logline)
-	for find in toFind:
-		if find in line:
-			print("%s found in %s file" % (find, i))
+if __name__ == '__main__':
+	words = ['ERROR', 'Exception', 'deadlock']
+	openfile = input("Choose file to follow: ")
+	logfile = open(openfile)
+	logline = follow(logfile)
+	find(logline, words, openfile)
